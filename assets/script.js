@@ -28,9 +28,9 @@ function setTime() {
       // Once `secondsLeft` gets to 0, set `timerEl` to an empty string
       timeEl.textContent = '';
       // Use `clearInterval()` to stop the timer
-      clearInterval(timeInterval);
+      clearInterval(timerInterval);
       // Call the `displayMessage()` function
-      sendMessageMessage();
+      sendMessage();
     }
 
   }, 1000);
@@ -47,19 +47,18 @@ setTime();
 
 
 //show a start quiz button
+
 //on click, hide start button
 
-
 //show first question
-
 
 //on click of chosen answer, 
 
 //see if the answer is correct
 
-//if correct, add to score and display "Correct!"
+//if correct, add to score
 
-//else, don't add to score and display "Wrong!"
+//else, don't add to score and penalize time
 
 //show next questions
 
@@ -72,3 +71,8 @@ setTime();
 //on click of "Show Highscores", hide quiz and show list of scores
 
 //on click of "Clear scores", clear scores
+
+//extra
+//if correct, display "Correct!"
+
+//else, display "Wrong!"
