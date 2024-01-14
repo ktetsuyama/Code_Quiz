@@ -19,7 +19,8 @@ var high = 0;
 var current = 0;
 var timer = null;
 var timeLeft = 0;
-var currentQuestion;
+var currentQuestion = [];
+var currentChoice = [];
 
 //Declare Variables contants
 var kQuestionList = [
@@ -58,7 +59,7 @@ var kCorrectAnswer = [
 	"//This is a comment",
 	"onclick",
 ];
-var kDuration = 60;
+var kDuration = 2;
 var kStorageKey = "Javascript-Code-Quiz-scores";
 
 //////////////////////
@@ -71,13 +72,13 @@ function init() {
 	//Retrieve data from persistance
 	var scores = JSON.parse(localStorage.getItem(kStorageKey));
 	//Update state
-	if (scores) {
+	if (scores !== null) {
 		high = scores.high;
 		current = scores.current;
 	}
 
 	//update UI
-	updateScoreBoard();
+	// updateScoreBoard();
 }
 
 //Event click start
@@ -89,7 +90,10 @@ function handleClickStart(event) {
 		timeLeft = kDuration;
 		//start timer
 		timer = setInterval(handleTimerTick, 1000);
-		//display a question
+		//display the first question
+		for (var i = 0; i < currentQuestion.length; i++) {
+			return kQuestionList[0];
+		}
 
 		//capture choice
 
@@ -126,36 +130,37 @@ function handleTimerTick(event) {
 function handleAnserClicked(event) {
 	console.log("choice made: ", event.clicked);
 
-	// if (timer && kCorrectAnswer.includes(event.clicked)) {
-	//   if ( );
-	//   //Update UI
-	// updateScoreBoard();
+	if (timer && kQuestionList == [0]) {
+		if (kCorrectAnswer.includes(event.clicked)) {
+			displayResult(correct);
+		}
 
-	// if (){
-	//   handleGameEnds(true);
-	// }
-	// }
+		//Update UI
+		updateScoreBoard();
+
+		// if (){
+		//   handleGameEnds(true);
+		// }
+	}
 }
-//Event Game ends
-function handleGameEnds(didWin) {
+// //Event Game ends
+function handleGameEnds(lastQuestion) {
 	clearInterval(timer);
 	timer = null;
 
-	// if(didWin) {
-	//   ;
-	// } else {
-
-	// }
+	if (didWin) {
+	} else {
+	}
 
 	localStorage.setItem(kStorageKey, JSON.stringify({ high }));
 
 	//display result message
-	displayResult(didWin);
+	return "Game Over";
 	updateScoreBoard();
 	showElement(controlsEl);
 }
-///////////////////////
-//Refactor
+// ///////////////////////
+// //Refactor
 function updateScoreBoard() {
 	//updated UI
 	highScoreEl.textContent = high;
@@ -166,16 +171,16 @@ function hideElement(el) {
 	el.classList.add("hide");
 }
 
-function hideElement(el) {
+function showElement(el) {
 	el.classList.remove("hide");
 }
 
-function displayResult(didWin) {
+function displayResult(correct) {
 	resultEl.classList.remove("success");
 	resultEl.classList.remove("failure");
 	hideElement(timerEl);
 
-	if (didWin) {
+	if (correct) {
 		resultEl.textContent = "Correct!";
 		resultEl.classList.add("success");
 	} else {

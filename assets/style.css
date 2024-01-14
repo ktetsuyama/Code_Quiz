@@ -24,3 +24,17 @@ body {
 	flex-direction: column;
 	justify-content: flex-start;
 }
+
+.hide {
+	display: none !important;
+}
+
+.success {
+	background-color: var(--color-success-bg);
+	color: var(--color-success-fg);
+}
+
+.failure {
+	background-color: var(--color-failure-bg);
+	color: var(--color-failure-fg);
+}
