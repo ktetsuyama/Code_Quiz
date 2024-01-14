@@ -1,0 +1,7 @@
+{
+	"editor.formatOnSave": true,
+	"html.format.indentHandlebars": true,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"less.format.spaceAroundSelectorSeparator": true,
+	"html.format.indentInnerHtml": true
+}
