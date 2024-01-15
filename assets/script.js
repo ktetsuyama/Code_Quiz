@@ -12,6 +12,7 @@ var currentQuestionEl = document.querySelector(".questions__currentQuestion");
 var choicesEl = document.querySelector(".questions__choices");
 var resultEl = document.querySelector(".questions__result");
 var controlsEl = document.querySelector(".controls");
+var gameOverEl = document.querySelector(".gameOver");
 
 //Declare Variables state
 
@@ -91,11 +92,20 @@ function handleClickStart(event) {
 		//start timer
 		timer = setInterval(handleTimerTick, 1000);
 		//display the first question
-		for (var i = 0; i < currentQuestion.length; i++) {
-			return kQuestionList[0];
-		}
+		currentQuestion.textContent = kQuestionList[0];
+		console.log(currentQuestion);
 
 		//capture choice
+		choicesEl.addEventListener("click", function () {
+			if (currentChoice == kCorrectAnswer) {
+				current++;
+				current.textContent = current;
+				localStorage.setItem("current", current);
+				displayResult(correct);
+			} else {
+				displayResult();
+			}
+		});
 
 		timerEl.textContent = timeLeft;
 
@@ -105,6 +115,8 @@ function handleClickStart(event) {
 		//reset the display
 		//hide any result messages
 		hideElement(resultEl);
+		//hide game over text
+		hideElement(gameOverEl);
 		//show question area
 		showElement(questionsEl);
 		//show timer
@@ -113,6 +125,8 @@ function handleClickStart(event) {
 		showElement(currentQuestionEl);
 		//show answer choices
 		showElement(choicesEl);
+		//show question display
+		updateQuestionDisplay();
 	}
 }
 startGameButtonEl.addEventListener("click", handleClickStart);
@@ -136,7 +150,7 @@ function handleAnserClicked(event) {
 		}
 
 		//Update UI
-		updateScoreBoard();
+		// updateScoreBoard();
 
 		// if (){
 		//   handleGameEnds(true);
@@ -148,24 +162,33 @@ function handleGameEnds(lastQuestion) {
 	clearInterval(timer);
 	timer = null;
 
-	if (didWin) {
-	} else {
-	}
+	// if (didWin) {
+	// } else {
+	// }
 
-	localStorage.setItem(kStorageKey, JSON.stringify({ high }));
+	// localStorage.setItem(kStorageKey, JSON.stringify({ high }));
 
 	//display result message
-	return "Game Over";
-	updateScoreBoard();
+	if (timer == null) {
+		//set attributes of h3
+		gameOverEl.setAttribute("style", "color:blue; text-align:center");
+
+		// Adds text content to created tag
+		gameOverEl.textContent = "Game Over!";
+
+		//show element
+		showElement(gameOverEl);
+	}
+	// updateScoreBoard();
 	showElement(controlsEl);
 }
 // ///////////////////////
 // //Refactor
-function updateScoreBoard() {
-	//updated UI
-	highScoreEl.textContent = high;
-	currentScoreEl.textContent = current;
-}
+// function updateScoreBoard() {
+// 	//updated UI
+// 	highScoreEl.textContent = high;
+// 	currentScoreEl.textContent = current;
+// }
 
 function hideElement(el) {
 	el.classList.add("hide");
@@ -188,6 +211,10 @@ function displayResult(correct) {
 		resultEl.classList.add("failure");
 	}
 	showElement(resultEl);
+}
+
+function updateQuestionDisplay() {
+	currentQuestionEl.textContent = currentQuestion.join(" ");
 }
 
 //Start the game

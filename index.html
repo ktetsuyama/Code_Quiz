@@ -9,20 +9,23 @@
 	<body>
 		<header><h1>Javascript Timed Quiz</h1></header>
 		<main>
-			<section class="scoreboard">
-				<div class="scoreboard__score">
-					High Score:
-					<span
-						class="scoreboard__score__value scoreboard__score_value--high"
-					></span>
-				</div>
-				<div class="scoreboard__score">
-					Current Score:
-					<span
-						class="scoreboard__score__value scoreboard__score_value--current"
-					></span>
-				</div>
-			</section>
+			<wrapper>
+				<section class="scoreboard">
+					<div class="scoreboard__score">
+						High Score:
+						<span
+							class="scoreboard__score__value scoreboard__score_value--high"
+						></span>
+					</div>
+					<div class="scoreboard__score">
+						Current Score:
+						<span
+							class="scoreboard__score__value scoreboard__score_value--current"
+						></span>
+					</div>
+					<button class="scoreboard__view__highscores">View High Scores</button>
+				</section>
+			</wrapper>
 			<section class="questions hide">
 				<div class="questions__currentQuestion"></div>
 				<div class="questions__choices">
@@ -37,6 +40,7 @@
 			<section class="controls">
 				<button class="controls__playgame">Start Quiz!</button>
 			</section>
+			<section><h3 class="gameOver hide"></h3></section>
 		</main>
 		<script src="./assets/script.js"></script>
 	</body>

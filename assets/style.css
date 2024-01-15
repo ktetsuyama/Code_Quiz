@@ -1,6 +1,6 @@
 :root {
-	--color-primary-bg: #;
-	--color-primary-fg: #04aabd;
+	--color-primary-bg: #04aabd;
+	--color-primary-fg: #fff;
 
 	--color-success-bg: #1ac13c;
 	--color-success-fg: #fff;
@@ -19,7 +19,6 @@
 
 body {
 	font-family: Arial;
-	margin: 25px;
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
@@ -37,4 +36,96 @@ body {
 .failure {
 	background-color: var(--color-failure-bg);
 	color: var(--color-failure-fg);
+}
+
+header {
+	padding: 40px;
+	text-align: center;
+	background: var(--color-primary-bg);
+	color: var(--color-primary-fg);
+	border-bottom: 30px;
+}
+
+main {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+
+section {
+	flex: 0 auto;
+	padding: 8px;
+	margin-top: 50px;
+	background-color: white;
+	border-radius: 8px;
+}
+
+.scoreboard {
+	display: flex;
+	flex-direction: column;
+	background: var(--color-grey-md);
+	border: 1px solid #eceff1;
+	border-radius: 8px;
+	box-shadow: rgba(60, 64, 67, 2) 0 1px 2px 0,
+		rgba(60, 64, 67, 0.15) 0 2px 4px 3px;
+	margin: 20px;
+	padding: 20px;
+}
+
+.wrapper {
+	display: block;
+}
+
+.questions {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.questions__currentQuestion {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 150px;
+}
+
+.questions__result {
+	display: flex;
+	width: 100%;
+	height: 40px;
+	padding: 32px;
+	align-items: center;
+}
+
+.questions__choices {
+	font-size: 70px;
+}
+
+.controls {
+	display: flex;
+	width: auto;
+	align-items: center;
+}
+
+.questions__timer {
+	font-size: 25px;
+}
+
+@media screen and (max-width: 1183px) {
+	main {
+		flex-direction: column;
+	}
+
+	section {
+		background-color: white;
+		margin: 20px auto;
+		width: 92vw;
+	}
+}
+
+@media screen and (max-width: 504px) {
+	.timer {
+		height: 200px;
+	}
 }
