@@ -5,6 +5,10 @@ var highScoreEl = document.querySelector(
 var currentScoreEl = document.querySelector(
 	".scoreboard__score__value scoreboard__score_value--current"
 );
+var scoreboardEl = document.querySelector(".scoreboard");
+var viewScoresEl = document.querySelector(".scoreboard__view__highscores");
+var highScoreboardEl = document.querySelector(".scoreboard__highscores");
+var backToGameEl = document.querySelector(".scoreboard__back");
 var timerEl = document.querySelector(".questions__timer");
 var startGameButtonEl = document.querySelector(".controls__playgame");
 var questionsEl = document.querySelector(".questions");
@@ -16,8 +20,8 @@ var gameOverEl = document.querySelector(".gameOver");
 
 //Declare Variables state
 
-var high = 0;
-var current = 0;
+var highScore = 0;
+var currentScore = 0;
 var timer = null;
 var timeLeft = 0;
 var currentQuestion = [];
@@ -70,12 +74,16 @@ var kStorageKey = "Javascript-Code-Quiz-scores";
 function init() {
 	console.log("Get Ready To Quiz!");
 
+	//show scoreboard
+	showElement(scoreboardEl);
+	// showElement(viewScoresEl);
+
 	//Retrieve data from persistance
 	var scores = JSON.parse(localStorage.getItem(kStorageKey));
 	//Update state
 	if (scores !== null) {
-		high = scores.high;
-		current = scores.current;
+		highScore = scores.highScore;
+		currentScore = scores.currentScore;
 	}
 
 	//update UI
@@ -98,9 +106,9 @@ function handleClickStart(event) {
 		//capture choice
 		choicesEl.addEventListener("click", function () {
 			if (currentChoice == kCorrectAnswer) {
-				current++;
-				current.textContent = current;
-				localStorage.setItem("current", current);
+				currentScore++;
+				current.textContent = currentScore;
+				localStorage.setItem("current", currentScore);
 				displayResult(correct);
 			} else {
 				displayResult();
@@ -166,7 +174,7 @@ function handleGameEnds(lastQuestion) {
 	// } else {
 	// }
 
-	// localStorage.setItem(kStorageKey, JSON.stringify({ high }));
+	// localStorage.setItem(kStorageKey, JSON.stringify({ highScore }));
 
 	//display result message
 	if (timer == null) {
@@ -186,8 +194,8 @@ function handleGameEnds(lastQuestion) {
 // //Refactor
 // function updateScoreBoard() {
 // 	//updated UI
-// 	highScoreEl.textContent = high;
-// 	currentScoreEl.textContent = current;
+// 	highScoreEl.textContent = highScore;
+// 	currentScoreEl.textContent = currentScore;
 // }
 
 function hideElement(el) {
@@ -214,8 +222,54 @@ function displayResult(correct) {
 }
 
 function updateQuestionDisplay() {
-	currentQuestionEl.textContent = currentQuestion.join(" ");
+	for (var i = 0; i < kQuestionList.length; i++) {
+		currentQuestionEl.textContent = kQuestionList[i];
+	}
 }
+
+function saveHighScore() {
+	// Save related form data as an object
+	var playerHighScore = {
+		playerName: playerName.value,
+		playerScore: currentScore.value,
+	};
+	// Use .setItem() to store object in storage and JSON.stringify to convert it as a string
+	localStorage.setItem(kStorageKey, JSON.stringify({ playerHighScore }));
+}
+function handleClickViewScores() {
+	console.log("Your saved scores.");
+	//view the highscore scoreboard
+	viewScoresEl.addEventListener("click", function () {
+		//hide start button
+		hideElement(controlsEl);
+		///////////////////////////
+		//reset the display
+		//hide everything
+		hideElement(questionsEl);
+		hideElement(scoreboardEl);
+		//show high scores display
+		showElement(highScoreboardEl);
+		showElement(backToGameEl);
+	});
+}
+viewScoresEl.addEventListener("click", handleClickViewScores);
+
+function handleClickBack() {
+	console.log("Welcome Back.");
+	//view the highscore scoreboard
+	backToGameEl.addEventListener("click", function () {
+		//hide start button
+		showElement(controlsEl);
+		///////////////////////////
+		//reset the display
+		//show scoreboard again
+		showElement(scoreboardEl);
+		//show high scores display
+		hideElement(highScoreboardEl);
+		hideElement(backToGameEl);
+	});
+}
+viewScoresEl.addEventListener("click", handleClickBack);
 
 //Start the game
 init();
