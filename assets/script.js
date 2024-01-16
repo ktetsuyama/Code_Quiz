@@ -17,6 +17,8 @@ var choicesEl = document.querySelector(".questions__choices");
 var resultEl = document.querySelector(".questions__result");
 var controlsEl = document.querySelector(".controls");
 var gameOverEl = document.querySelector(".gameOver");
+var saveButtonEl = document.getElementById("save");
+var playerNameEl = document.querySelector("player_name");
 
 //Declare Variables state
 
@@ -64,7 +66,7 @@ var kCorrectAnswer = [
 	"//This is a comment",
 	"onclick",
 ];
-var kDuration = 2;
+var kDuration = 60;
 var kStorageKey = "Javascript-Code-Quiz-scores";
 
 //////////////////////
@@ -76,7 +78,6 @@ function init() {
 
 	//show scoreboard
 	showElement(scoreboardEl);
-	// showElement(viewScoresEl);
 
 	//Retrieve data from persistance
 	var scores = JSON.parse(localStorage.getItem(kStorageKey));
@@ -111,6 +112,7 @@ function handleClickStart(event) {
 				localStorage.setItem("current", currentScore);
 				displayResult(correct);
 			} else {
+				timeLeft -= 10;
 				displayResult();
 			}
 		});
@@ -149,7 +151,7 @@ function handleTimerTick(event) {
 	}
 }
 //Event choice clicked
-function handleAnserClicked(event) {
+function handleAnswerClicked(event) {
 	console.log("choice made: ", event.clicked);
 
 	if (timer && kQuestionList == [0]) {
@@ -227,19 +229,14 @@ function updateQuestionDisplay() {
 	}
 }
 
-function saveHighScore() {
-	// Save related form data as an object
-	var playerHighScore = {
-		playerName: playerName.value,
-		playerScore: currentScore.value,
-	};
-	// Use .setItem() to store object in storage and JSON.stringify to convert it as a string
-	localStorage.setItem(kStorageKey, JSON.stringify({ playerHighScore }));
-}
+//Show and hide the highscores board
 function handleClickViewScores() {
 	console.log("Your saved scores.");
-	//view the highscore scoreboard
-	viewScoresEl.addEventListener("click", function () {
+	var view = "hide";
+
+	if (view === "hide") {
+		//view the highscore scoreboard
+		showElement(highScoreboardEl);
 		//hide start button
 		hideElement(controlsEl);
 		///////////////////////////
@@ -247,29 +244,79 @@ function handleClickViewScores() {
 		//hide everything
 		hideElement(questionsEl);
 		hideElement(scoreboardEl);
+		hideElement(gameOverEl);
 		//show high scores display
-		showElement(highScoreboardEl);
 		showElement(backToGameEl);
-	});
-}
-viewScoresEl.addEventListener("click", handleClickViewScores);
-
-function handleClickBack() {
-	console.log("Welcome Back.");
-	//view the highscore scoreboard
-	backToGameEl.addEventListener("click", function () {
-		//hide start button
+	} else {
+		console.log("Welcome Back.");
+		view = "show";
+		//show start button
 		showElement(controlsEl);
 		///////////////////////////
 		//reset the display
 		//show scoreboard again
 		showElement(scoreboardEl);
-		//show high scores display
+		//hide questions
+		hideElement(questionsEl);
+		//hide high scores display
 		hideElement(highScoreboardEl);
 		hideElement(backToGameEl);
-	});
+	}
 }
-viewScoresEl.addEventListener("click", handleClickBack);
+viewScoresEl.addEventListener("click", handleClickViewScores);
+
+//Save score to high scoreboard
+saveButtonEl.addEventListener("click", function (event) {
+	event.preventDefault();
+	// Save related form data as an object
+	var playerHighScore = {
+		playerName: playerNameEl.value.trim(),
+		playerScore: currentScoreEl.value.trim(),
+	};
+	// Use .setItem() to store object in storage and JSON.stringify to convert it as a string
+	localStorage.setItem(kStorageKey, JSON.stringify(playerHighScore));
+	renderScore();
+});
+
+function renderScore() {
+	var lastScore = JSON.parse(kStorageKey.getItem("playerHighScore"));
+	if (lastScore !== null) {
+		document.getElementById("saved-name").textContent = lastScore.playerName;
+		document.getElementById("saved-score").textContent = lastScore.playerScore;
+	}
+}
+
+function handleClickBack() {
+	console.log("Welcome Back.");
+	var view = "show";
+
+	if (view === "show") {
+		//show start button
+		showElement(controlsEl);
+		///////////////////////////
+		//reset the display
+		//show scoreboard again
+		showElement(scoreboardEl);
+		//hide high scores display
+		hideElement(highScoreboardEl);
+		hideElement(backToGameEl);
+	} else {
+		view = "hide";
+		//view the highscore scoreboard
+		showElement(highScoreboardEl);
+		//hide start button
+		hideElement(controlsEl);
+		///////////////////////////
+		//reset the display
+		//hide everything
+		hideElement(questionsEl);
+		hideElement(scoreboardEl);
+		hideElement(gameOverEl);
+		//show high scores display
+		showElement(backToGameEl);
+	}
+}
+backToGameEl.addEventListener("click", handleClickBack);
 
 //Start the game
 init();

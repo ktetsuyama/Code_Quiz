@@ -26,8 +26,23 @@
 					<button class="scoreboard__view__highscores">View High Scores</button>
 				</section>
 			</wrapper>
-			<section class="scoreboard__highscores">
-				<button class="scoreboard__back hide">Back to Game</button>
+			<section class="scoreboard__highscores hide">
+				<section class="scoreboard__highscores__info">
+					<div class="card">
+						<h2>Enter your name</h2>
+						<p>Current Score: <span id="currentScore"></span></p>
+						<textarea class="player__name"></textarea>
+						<button id="save">SAVE</button>
+					</div>
+					<div class="card" id="card2">
+						<h2>High Scores</h2>
+						<p>name: <span id="saved-name"></span></p>
+						<p>score: <span id="saved-score"></span></p>
+					</div>
+				</section>
+				<section>
+					<button class="scoreboard__back hide">Back to Game</button>
+				</section>
 			</section>
 			<section class="questions hide">
 				<div class="questions__currentQuestion"></div>
