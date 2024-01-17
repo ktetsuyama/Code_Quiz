@@ -13,15 +13,11 @@
 				<section class="scoreboard hide">
 					<div class="scoreboard__score">
 						High Score:
-						<span
-							class="scoreboard__score__value scoreboard__score_value--high"
-						></span>
+						<span class="scoreboard__score__high"></span>
 					</div>
 					<div class="scoreboard__score">
 						Current Score:
-						<span
-							class="scoreboard__score__value scoreboard__score_value--current"
-						></span>
+						<span class="scoreboard__score__current"></span>
 					</div>
 					<button class="scoreboard__view__highscores">View High Scores</button>
 				</section>
@@ -47,10 +43,14 @@
 			<section class="questions hide">
 				<div class="questions__currentQuestion"></div>
 				<div class="questions__choices">
-					<button id="buttonA"></button>
-					<button id="buttonB"></button>
-					<button id="buttonC"></button>
-					<button id="buttonD"></button>
+					<wrapper>
+						<button class="answerButtons"></button>
+						<button class="answerButtons" ></button>
+					</wrapper>
+					<wrapper>
+						<button class="answerButtons" id=></button>
+						<button class="answerButtons" id=></button>
+					</wrapper>
 				</div>
 				<div class="questions__timer"></div>
 				<div class="questions__result"></div>

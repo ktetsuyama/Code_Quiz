@@ -100,10 +100,6 @@ section {
 	align-items: center;
 }
 
-.wrapper {
-	display: flex;
-}
-
 .questions {
 	display: flex;
 	flex-direction: column;
@@ -127,7 +123,26 @@ section {
 }
 
 .questions__choices {
+	display: flex;
 	font-size: 70px;
+}
+
+.answerButtons {
+	display: flex;
+	align-items: center;
+	width: 250px;
+	height: 40px;
+	margin: 20px;
+	background-color: var(--color-grey-lt);
+	border-radius: 8px;
+	box-shadow: var(--color-grey-md) 0 1px 2px 0,
+		var(--color-grey-dk) 0 2px 4px 3px;
+}
+
+.answerButtons:hover {
+	background-color: var(--color-grey-md);
+	transform: scale(1.05);
+	cursor: pointer;
 }
 
 .controls {

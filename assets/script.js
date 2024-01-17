@@ -1,10 +1,6 @@
 //Declare Variables DOM hooks
-var highScoreEl = document.querySelector(
-	".scoreboard__score__value scoreboard__score_value--high"
-);
-var currentScoreEl = document.querySelector(
-	".scoreboard__score__value scoreboard__score_value--current"
-);
+var highScoreEl = document.querySelector(".scoreboard__score__high");
+var currentScoreEl = document.querySelector(".scoreboard__score__current");
 var scoreboardEl = document.querySelector(".scoreboard");
 var viewScoresEl = document.querySelector(".scoreboard__view__highscores");
 var highScoreboardEl = document.querySelector(".scoreboard__highscores");
@@ -18,7 +14,7 @@ var resultEl = document.querySelector(".questions__result");
 var controlsEl = document.querySelector(".controls");
 var gameOverEl = document.querySelector(".gameOver");
 var saveButtonEl = document.getElementById("save");
-var playerNameEl = document.querySelector("player_name");
+var playerNameEl = document.querySelector(".player_name");
 
 //Declare Variables state
 
@@ -26,45 +22,41 @@ var highScore = 0;
 var currentScore = 0;
 var timer = null;
 var timeLeft = 0;
-var currentQuestion = [];
-var currentChoice = [];
+var currentQuestion;
+var currentChoice;
 
 //Declare Variables contants
 var kQuestionList = [
-	"What are the three letters used to declare a variable?",
-	"Inside which HTML element do we put the JavaScript?",
-	"How do you create a function in JavaScript?",
-	"How can you add a comment in a JavaScript?",
-	"Which event occurs when the user clicks on an HTML element?",
-];
-var kAnswers = [
-	"var",
-	"css",
-	"jvs",
-	"idk",
-	"<js>",
-	"<scripting>",
-	"<javascript",
-	"<script>",
-	"function:myFunction()",
-	"function myFunction()",
-	"function = myFunction",
-	"creatus functonum!",
-	"'This is a comment",
-	"!This is a comment",
-	"//This is a comment",
-	"psst, hey comment",
-	"onclick",
-	"onchange",
-	"onmouseclick",
-	"onmouseover",
-];
-var kCorrectAnswer = [
-	"var",
-	"<script>",
-	"function myFunction()",
-	"//This is a comment",
-	"onclick",
+	{
+		question: "What are the three letters used to declare a variable?",
+		choices: ["var", "css", "jvs", "idk"],
+		correctAnswer: 0,
+	},
+	{
+		question: "How do you create a function in JavaScript?",
+		choices: [
+			"function:myFunction()",
+			"function myFunction()",
+			"function = myFunction",
+			"creatus functonum!",
+		],
+		correctAnswer: 1,
+	},
+	{
+		question: "How can you add a comment in a JavaScript?",
+		choices: [
+			"'This is a comment",
+			"!This is a comment",
+			"//This is a comment",
+			"psst, hey comment",
+		],
+		correctAnswer: 2,
+	},
+	{
+		question: "Which event occurs when the user clicks on an HTML element?",
+		choices: ["onclick", "onchange", "onmouseclick", "onmouseover"],
+		correctAnswer: 0,
+	},
 ];
 var kDuration = 60;
 var kStorageKey = "Javascript-Code-Quiz-scores";
@@ -101,15 +93,12 @@ function handleClickStart(event) {
 		//start timer
 		timer = setInterval(handleTimerTick, 1000);
 		//display the first question
-		currentQuestion.textContent = kQuestionList[0];
-		console.log(currentQuestion);
 
-		//capture choice
 		choicesEl.addEventListener("click", function () {
-			if (currentChoice == kCorrectAnswer) {
+			if (currentChoice == kQuestionList.correctAnswer) {
 				currentScore++;
-				current.textContent = currentScore;
-				localStorage.setItem("current", currentScore);
+				currentScoreEl.textContent = currentScore;
+				localStorage.setItem(kStorageKey, currentScore);
 				displayResult(correct);
 			} else {
 				timeLeft -= 10;
@@ -121,6 +110,7 @@ function handleClickStart(event) {
 
 		//hide start button
 		hideElement(controlsEl);
+
 		///////////////////////////
 		//reset the display
 		//hide any result messages
@@ -135,8 +125,6 @@ function handleClickStart(event) {
 		showElement(currentQuestionEl);
 		//show answer choices
 		showElement(choicesEl);
-		//show question display
-		updateQuestionDisplay();
 	}
 }
 startGameButtonEl.addEventListener("click", handleClickStart);
@@ -150,33 +138,13 @@ function handleTimerTick(event) {
 		handleGameEnds(false);
 	}
 }
-//Event choice clicked
-function handleAnswerClicked(event) {
-	console.log("choice made: ", event.clicked);
 
-	if (timer && kQuestionList == [0]) {
-		if (kCorrectAnswer.includes(event.clicked)) {
-			displayResult(correct);
-		}
-
-		//Update UI
-		// updateScoreBoard();
-
-		// if (){
-		//   handleGameEnds(true);
-		// }
-	}
-}
-// //Event Game ends
+//Event Game ends
 function handleGameEnds(lastQuestion) {
 	clearInterval(timer);
 	timer = null;
 
-	// if (didWin) {
-	// } else {
-	// }
-
-	// localStorage.setItem(kStorageKey, JSON.stringify({ highScore }));
+	localStorage.setItem(kStorageKey, JSON.stringify({ highScore }));
 
 	//display result message
 	if (timer == null) {
@@ -194,11 +162,11 @@ function handleGameEnds(lastQuestion) {
 }
 // ///////////////////////
 // //Refactor
-// function updateScoreBoard() {
-// 	//updated UI
-// 	highScoreEl.textContent = highScore;
-// 	currentScoreEl.textContent = currentScore;
-// }
+function updateScoreBoard() {
+	//updated UI
+	highScoreEl.textContent = highScore;
+	currentScoreEl.textContent = currentScore;
+}
 
 function hideElement(el) {
 	el.classList.add("hide");
@@ -223,15 +191,9 @@ function displayResult(correct) {
 	showElement(resultEl);
 }
 
-function updateQuestionDisplay() {
-	for (var i = 0; i < kQuestionList.length; i++) {
-		currentQuestionEl.textContent = kQuestionList[i];
-	}
-}
-
 //Show and hide the highscores board
 function handleClickViewScores() {
-	console.log("Your saved scores.");
+	console.log("Welcome to the Scores.");
 	var view = "hide";
 
 	if (view === "hide") {
