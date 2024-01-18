@@ -22,7 +22,7 @@ var highScore = 0;
 var currentScore = 0;
 var timer = null;
 var timeLeft = 0;
-var currentQuestion;
+var currentQuestion = 0;
 var currentChoice;
 
 //Declare Variables contants
@@ -80,11 +80,11 @@ function init() {
 	}
 
 	//update UI
-	// updateScoreBoard();
+	updateScoreBoard();
 }
 
 //Event click start
-function handleClickStart(event) {
+function handleClickStart() {
 	console.log("Let's Begin.");
 
 	if (!timer) {
@@ -93,19 +93,9 @@ function handleClickStart(event) {
 		//start timer
 		timer = setInterval(handleTimerTick, 1000);
 		//display the first question
+		renderQuestion(currentQuestion);
 
-		choicesEl.addEventListener("click", function () {
-			if (currentChoice == kQuestionList.correctAnswer) {
-				currentScore++;
-				currentScoreEl.textContent = currentScore;
-				localStorage.setItem(kStorageKey, currentScore);
-				displayResult(correct);
-			} else {
-				timeLeft -= 10;
-				displayResult();
-			}
-		});
-
+		timerEl.setAttribute("style", "text-align:center");
 		timerEl.textContent = timeLeft;
 
 		//hide start button
@@ -127,7 +117,8 @@ function handleClickStart(event) {
 		showElement(choicesEl);
 	}
 }
-startGameButtonEl.addEventListener("click", handleClickStart);
+controlsEl.addEventListener("click", handleClickStart);
+
 //Event timer tick
 function handleTimerTick(event) {
 	console.log("timer clicked!");
@@ -144,7 +135,7 @@ function handleGameEnds(lastQuestion) {
 	clearInterval(timer);
 	timer = null;
 
-	localStorage.setItem(kStorageKey, JSON.stringify({ highScore }));
+	localStorage.setItem(kStorageKey, JSON.stringify({ currentScore }));
 
 	//display result message
 	if (timer == null) {
@@ -176,12 +167,11 @@ function showElement(el) {
 	el.classList.remove("hide");
 }
 
-function displayResult(correct) {
+function displayResult() {
 	resultEl.classList.remove("success");
 	resultEl.classList.remove("failure");
-	hideElement(timerEl);
 
-	if (correct) {
+	if (true) {
 		resultEl.textContent = "Correct!";
 		resultEl.classList.add("success");
 	} else {
@@ -207,6 +197,7 @@ function handleClickViewScores() {
 		hideElement(questionsEl);
 		hideElement(scoreboardEl);
 		hideElement(gameOverEl);
+		hideElement(resultEl);
 		//show high scores display
 		showElement(backToGameEl);
 	} else {
@@ -280,5 +271,32 @@ function handleClickBack() {
 }
 backToGameEl.addEventListener("click", handleClickBack);
 
+function renderQuestion(questionIndex) {
+	currentQuestionEl.textContent = kQuestionList[questionIndex].question;
+
+	for (var i = 0; i < kQuestionList[questionIndex].choices.length; i++) {
+		var choice = kQuestionList[questionIndex].choices[i];
+
+		var answerButton = document.createElement("button");
+		answerButton.textContent = choice;
+		answerButton.setAttribute("answerButtons", i);
+		answerButton.classList.add("answerButtons");
+		//Event listener for the choice made
+		answerButton.addEventListener("click", function (event) {
+			var currentChoice = parseInt(event.target.getAttribute("answerButtons"));
+			if (currentChoice == kQuestionList[questionIndex].correctAnswer) {
+				currentScore++;
+				currentScoreEl.textContent = currentScore;
+				localStorage.setItem(kStorageKey, currentScore);
+				displayResult(true);
+			} else {
+				timeLeft -= 10;
+				displayResult(false);
+			}
+		});
+
+		choicesEl.appendChild(answerButton);
+	}
+}
 //Start the game
 init();
