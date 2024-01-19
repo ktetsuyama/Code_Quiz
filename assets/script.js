@@ -131,7 +131,7 @@ function handleTimerTick(event) {
 }
 
 //Event Game ends
-function handleGameEnds(lastQuestion) {
+function handleGameEnds() {
 	clearInterval(timer);
 	timer = null;
 
@@ -271,11 +271,11 @@ function handleClickBack() {
 }
 backToGameEl.addEventListener("click", handleClickBack);
 
-function renderQuestion(questionIndex) {
-	currentQuestionEl.textContent = kQuestionList[questionIndex].question;
-
-	for (var i = 0; i < kQuestionList[questionIndex].choices.length; i++) {
-		var choice = kQuestionList[questionIndex].choices[i];
+function renderQuestion() {
+	currentQuestionEl.textContent = kQuestionList[currentQuestion].question;
+	choicesEl.innerHTML = "";
+	for (var i = 0; i < kQuestionList[currentQuestion].choices.length; i++) {
+		var choice = kQuestionList[currentQuestion].choices[i];
 
 		var answerButton = document.createElement("button");
 		answerButton.textContent = choice;
@@ -285,10 +285,10 @@ function renderQuestion(questionIndex) {
 		answerButton.addEventListener("click", function (event) {
 			console.log(
 				event.target.innerHTML,
-				kQuestionList[questionIndex].correctAnswer
+				kQuestionList[currentQuestion].correctAnswer
 			);
 			var currentChoice = event.target.innerHTML;
-			if (currentChoice == kQuestionList[questionIndex].correctAnswer) {
+			if (currentChoice == kQuestionList[currentQuestion].correctAnswer) {
 				currentScore++;
 				currentScoreEl.textContent = currentScore;
 				localStorage.setItem(kStorageKey, currentScore);
@@ -296,6 +296,12 @@ function renderQuestion(questionIndex) {
 			} else {
 				timeLeft -= 10;
 				displayResult(false);
+			}
+			currentQuestion++;
+			if (currentQuestion < kQuestionList.length) {
+				renderQuestion();
+			} else {
+				handleGameEnds();
 			}
 		});
 

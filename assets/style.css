@@ -125,6 +125,8 @@ section {
 .questions__choices {
 	display: flex;
 	font-size: 70px;
+	flex-wrap: wrap;
+	justify-content: center;
 }
 
 .answerButtons {
@@ -133,7 +135,7 @@ section {
 	justify-content: center;
 	width: 250px;
 	height: 40px;
-	font-size: 25px;
+	font-size: 1rem;
 	margin: 20px;
 	background-color: var(--color-grey-lt);
 	border-radius: 8px;
