@@ -30,7 +30,7 @@ var kQuestionList = [
 	{
 		question: "What are the three letters used to declare a variable?",
 		choices: ["var", "css", "jvs", "idk"],
-		correctAnswer: 0,
+		correctAnswer: "var",
 	},
 	{
 		question: "How do you create a function in JavaScript?",
@@ -40,7 +40,7 @@ var kQuestionList = [
 			"function = myFunction",
 			"creatus functonum!",
 		],
-		correctAnswer: 1,
+		correctAnswer: "function myFunction()",
 	},
 	{
 		question: "How can you add a comment in a JavaScript?",
@@ -50,12 +50,12 @@ var kQuestionList = [
 			"//This is a comment",
 			"psst, hey comment",
 		],
-		correctAnswer: 2,
+		correctAnswer: "//This is a comment",
 	},
 	{
 		question: "Which event occurs when the user clicks on an HTML element?",
 		choices: ["onclick", "onchange", "onmouseclick", "onmouseover"],
-		correctAnswer: 0,
+		correctAnswer: "onclick",
 	},
 ];
 var kDuration = 60;
@@ -167,11 +167,11 @@ function showElement(el) {
 	el.classList.remove("hide");
 }
 
-function displayResult() {
+function displayResult(result) {
 	resultEl.classList.remove("success");
 	resultEl.classList.remove("failure");
 
-	if (true) {
+	if (result) {
 		resultEl.textContent = "Correct!";
 		resultEl.classList.add("success");
 	} else {
@@ -283,7 +283,11 @@ function renderQuestion(questionIndex) {
 		answerButton.classList.add("answerButtons");
 		//Event listener for the choice made
 		answerButton.addEventListener("click", function (event) {
-			var currentChoice = parseInt(event.target.getAttribute("answerButtons"));
+			console.log(
+				event.target.innerHTML,
+				kQuestionList[questionIndex].correctAnswer
+			);
+			var currentChoice = event.target.innerHTML;
 			if (currentChoice == kQuestionList[questionIndex].correctAnswer) {
 				currentScore++;
 				currentScoreEl.textContent = currentScore;
