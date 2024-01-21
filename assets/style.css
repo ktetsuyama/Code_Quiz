@@ -84,6 +84,7 @@ section {
 	margin: 60px;
 	padding: 20px;
 	display: block;
+	width: 100%;
 }
 
 #card2 {
@@ -92,12 +93,22 @@ section {
 	box-shadow: var(--color-grey-md) 0 1px 2px 0,
 		var(--color-grey-dk) 0 2px 4px 3px;
 	display: block;
-	width: 50%;
+	width: 70%;
+}
+
+.back-to-game {
+	display: flex;
+	justify-content: center;
 }
 
 .scoreboard__back {
 	height: auto;
 	align-items: center;
+}
+
+.game-over {
+	display: flex;
+	justify-content: center;
 }
 
 .questions {
@@ -153,6 +164,7 @@ section {
 	display: flex;
 	width: auto;
 	align-items: center;
+	justify-content: center;
 }
 
 .questions__timer {

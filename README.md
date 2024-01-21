@@ -1,4 +1,4 @@
-# Code_Quiz
+# Code Quiz
 
 ## Description
 
@@ -22,7 +22,7 @@ I would like a fun way to solidify my knowledge of Javascript. Gamifying learnin
 
 I created a game using Javascript that asks a series of questions, informs me if the answer I chose was correct or incorrect, and allows me to save my highscore.
 
-![Screenshot of the game]()
+![Screenshot of the game](./assets/screenshot.png)
 
 [Link to the deployed application]()
 

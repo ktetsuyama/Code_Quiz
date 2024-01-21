@@ -20,7 +20,7 @@ var playerNameEl = document.querySelector(".player_name");
 
 //Declare Variables state
 
-var highScore = 0;
+var highScore;
 var currentScore = 0;
 var timer = null;
 var timeLeft = 0;
@@ -60,7 +60,7 @@ var kQuestionList = [
 		correctAnswer: "onclick",
 	},
 ];
-var kDuration = 60;
+var kDuration = 20;
 var kStorageKeyHigh = "Javascript-Code-Quiz-High-scores";
 var kStorageKeyCurrent = "Javascript-Code-Quiz-Current-score";
 
@@ -75,11 +75,12 @@ function init() {
 	showElement(scoreboardEl);
 
 	//Retrieve data from persistance
-	var scores = JSON.parse(localStorage.getItem(kStorageKeyHigh));
+	var scores = localStorage.getItem(kStorageKeyHigh);
+
+	var highScoreSaved = JSON.parse(scores);
 	//Update state
 	if (scores !== null) {
-		highScore = scores.highScore;
-		currentScore = scores.currentScore;
+		highScore = highScoreSaved.playerScore;
 	}
 
 	//update UI
@@ -140,6 +141,11 @@ function handleGameEnds() {
 	timer = null;
 
 	localStorage.setItem(kStorageKeyCurrent, JSON.stringify({ currentScore }));
+
+	// Reset game state
+	currentScore = 0;
+	timeLeft = 0;
+	currentQuestion = 0;
 
 	//display result message
 	if (timer == null) {
@@ -206,12 +212,17 @@ function handleClickViewScores() {
 
 		//Retrieve data from persistance
 		var scores = JSON.parse(localStorage.getItem(kStorageKeyHigh));
+		var currentScoreData = JSON.parse(localStorage.getItem(kStorageKeyCurrent));
 		//Update state
 		if (scores !== null) {
-			currentScore = scores.currentScore;
+			currentScore = scores.playerScore;
+		}
+		if (currentScoreData !== null) {
+			currentScore = currentScoreData.currentScore;
 		}
 		//show high scores display
 		showElement(backToGameEl);
+
 		currentScoreSaveEl.textContent = currentScore;
 	} else {
 		console.log("Welcome Back.");
@@ -237,15 +248,16 @@ saveButtonEl.addEventListener("click", function (event) {
 	// Save related form data as an object
 	var playerHighScore = {
 		playerName: playerNameEl.value.trim(),
-		playerScore: currentScoreEl.value.trim(),
+		playerScore: currentScore,
 	};
 	// Use .setItem() to store object in storage and JSON.stringify to convert it as a string
 	localStorage.setItem(kStorageKeyHigh, JSON.stringify(playerHighScore));
+	console.log(localStorage);
 	renderScore();
 });
 
 function renderScore() {
-	var lastScore = JSON.parse(kStorageKeyHigh.getItem("playerHighScore"));
+	var lastScore = JSON.parse(localStorage.getItem(kStorageKeyHigh));
 	if (lastScore !== null) {
 		document.getElementById("saved-name").textContent = lastScore.playerName;
 		document.getElementById("saved-score").textContent = lastScore.playerScore;
@@ -257,6 +269,12 @@ function handleClickBack() {
 	var view = "show";
 
 	if (view === "show") {
+		// Reset game states
+		currentScore = 0;
+		timer = null;
+		timeLeft = 0;
+		currentQuestion = 0;
+
 		//show start button
 		showElement(controlsEl);
 		///////////////////////////
@@ -281,6 +299,14 @@ function handleClickBack() {
 		//show high scores display
 		showElement(backToGameEl);
 	}
+	// Retrieve data from persistence
+	var scores = JSON.parse(localStorage.getItem(kStorageKeyHigh));
+	// Update state
+	if (scores !== null) {
+		highScore = scores.playerScore;
+	}
+	//update UI
+	updateScoreBoard();
 }
 backToGameEl.addEventListener("click", handleClickBack);
 
@@ -324,6 +350,7 @@ function renderQuestion() {
 
 function clearCurrentScore() {
 	localStorage.clear(kStorageKeyCurrent, currentScoreEl);
+	currentScoreEl.textContent = "";
 }
 clearButtonEl.addEventListener("click", clearCurrentScore);
 

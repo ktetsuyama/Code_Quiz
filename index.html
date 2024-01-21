@@ -26,9 +26,9 @@
 			<section class="scoreboard__highscores hide">
 				<section class="scoreboard__highscores__info">
 					<div class="card">
-						<h2>Enter your name</h2>
-						<p>Current Score: <span id="currentScore"></span></p>
-						<textarea class="player__name"></textarea>
+						<h2>Current Score: <span id="currentScore"></span></h2>
+						<p>Enter your name</p>
+						<textarea class="player_name"></textarea>
 						<button id="save">SAVE</button>
 					</div>
 					<div class="card" id="card2">
@@ -38,20 +38,24 @@
 					</div>
 				</section>
 				<section>
-					<button class="scoreboard__back hide">Back to Game</button>
+					<div class="back-to-game">
+						<button class="scoreboard__back hide">Back to Game</button>
+					</div>
 				</section>
 			</section>
-			<section><h3 class="gameOver hide"></h3></section>
+			<div class="game-over">
+				<section><h3 class="gameOver hide"></h3></section>
+			</div>
 			<section class="questions hide">
 				<div class="questions__currentQuestion"></div>
 				<div class="questions__choices"></div>
 			</section>
 			<div class="questions__timer"></div>
 			<div class="questions__result"></div>
-			<section class="controls show">
-				<button class="controls__playgame">Start Quiz!</button>
-			</section>
 		</main>
+		<section class="controls show">
+			<button class="controls__playgame">Start Quiz!</button>
+		</section>
 		<script src="./assets/script.js"></script>
 	</body>
 </html>
