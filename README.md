@@ -24,7 +24,7 @@ I created a game using Javascript that asks a series of questions, informs me if
 
 ![Screenshot of the game](./assets/screenshot.png)
 
-[Link to the deployed application]()
+[Link to the deployed application](https://ktetsuyama.github.io/Code_Quiz/)
 
 ## Credits
 
